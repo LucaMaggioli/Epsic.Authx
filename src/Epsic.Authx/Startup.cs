@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Epsic.Authx.Config;
 using Epsic.Authx.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,11 @@ namespace Epsic.Authx
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Ajouter cette ligne va injecter dans le middleware notre configuration JWT.
+            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            // Ajouter cette ligne va configurer l’utilisation de ASP.NET Core Identity pour la gestion des utilisateurs.
+            services.AddIdentity<IdentityUser, IdentityRole>(options => { })
+                .AddEntityFrameworkStores<CovidDbContext>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
