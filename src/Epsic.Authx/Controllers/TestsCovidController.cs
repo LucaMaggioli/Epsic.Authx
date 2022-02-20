@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Epsic.Authx.Data;
 using Epsic.Authx.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Epsic.Authx.Controllers
 {
@@ -21,6 +22,7 @@ namespace Epsic.Authx.Controllers
 
         // GET: TestsCovid/E04832F9-6006-4E2F-8816-64E709BE38C0
         [HttpGet("testsCovid/{id}")]
+        [Authorize]
         public async Task<IActionResult> Details(Guid id)
         {
             var testCovid = await _context.TestsCovid.FirstOrDefaultAsync(m => m.Id == id);
